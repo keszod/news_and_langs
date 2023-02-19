@@ -59,7 +59,7 @@ def create_driver(headless=True):
 	}
 	driver.execute_cdp_cmd("Emulation.setGeolocationOverride", params)
 	driver.refresh()
-	
+	driver.set_page_load_timeout(30)
 	return driver
 
 
