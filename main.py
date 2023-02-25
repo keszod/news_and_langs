@@ -59,7 +59,8 @@ def create_driver(headless=True):
 	}
 	driver.execute_cdp_cmd("Emulation.setGeolocationOverride", params)
 	driver.refresh()
-	driver.set_page_load_timeout(30)
+	driver.set_page_load_timeout(10)
+	
 	return driver
 
 
@@ -84,9 +85,15 @@ def csv_pack(name,params,mode='a+'):
 def check_if_news():
 	sites = get_sites()
 	driver = create_driver()
+	count = 0
 
 	for site in sites:
 		try:
+			if count == 15:
+				count = 0
+				driver.close()
+				driver = create_driver()
+
 			if not 'https://' in site:
 				site = 'https://'+site
 			print(site)
@@ -118,6 +125,8 @@ def check_if_news():
 				sleep(1)
 
 			csv_pack('result',[site,links,dates,if_news_in_text,last_date])
+
+			count += 1
 		except:
 			traceback.print_exc()
 			continue
