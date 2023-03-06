@@ -21,7 +21,9 @@ def create_driver(headless=True):
 	options.add_argument('--headless')
 
 	driver = uc.Chrome(use_subprocess=True, options=options)
-
+	
+	driver.set_page_load_timeout(15)
+	
 	return driver
 
 def get_sites():
